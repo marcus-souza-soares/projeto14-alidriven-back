@@ -48,6 +48,10 @@ export async function createUser(req, res) {
             products: [],
             userId: newUserSuccess._id
         })
+        await db.collection('orders').insertOne({
+            products: [],
+            userId: newUserSuccess._id
+        })
         res.status(201).send("Usuário criado!")
     } catch (error) {
         res.status(401).send("deu ruim")
