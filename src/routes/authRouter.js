@@ -8,4 +8,5 @@ const router = Router();
 router.post('/login', validateLogin, loginUser);
 router.post('/cadastrar', validateSignUp, createUser);
 
+
 export default router;
