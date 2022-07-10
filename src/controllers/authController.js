@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import db from '../db.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function loginUser(req, res) {
     const user = req.body;
@@ -11,7 +13,7 @@ export async function loginUser(req, res) {
     
     try {
         const userDb = await db.collection('users').findOne({email: user.email});
-        if (user && bcrypt.compareSync(user.password, userDb.password)) {
+        if (userDb && bcrypt.compareSync(user.password, userDb.password)) {
             const dados = { userId: userDb._id }
             const token = jwt.sign(dados, secret_key, configuracoes)
         
@@ -41,6 +43,11 @@ export async function createUser(req, res) {
             email: new_user.email,
             password: crypted_password
         });
+        const newUserSuccess = await db.collection('users').findOne({email: new_user.email});
+        await db.collection('carts').insertOne({
+            products: [],
+            userId: newUserSuccess._id
+        })
         res.status(201).send("Usuário criado!")
     } catch (error) {
         res.status(401).send("deu ruim")
