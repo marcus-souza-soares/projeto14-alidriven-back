@@ -11,7 +11,7 @@ export async function loginUser(req, res) {
     
     try {
         const userDb = await db.collection('users').findOne({email: user.email});
-        if (user && bcrypt.compareSync(user.password, userDb.password)) {
+        if (userDb && bcrypt.compareSync(user.password, userDb.password)) {
             const dados = { userId: userDb._id }
             const token = jwt.sign(dados, secret_key, configuracoes)
         
