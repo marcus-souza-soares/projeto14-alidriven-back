@@ -9,7 +9,7 @@ export async function loginUser(req, res) {
 
     
     const secret_key = process.env.JWT_SECRET;
-    const configuracoes = { expiresIn: 60 * 20 }
+    const configuracoes = { expiresIn: 60 * 60 *3 }
     
     try {
         const userDb = await db.collection('users').findOne({email: user.email});
