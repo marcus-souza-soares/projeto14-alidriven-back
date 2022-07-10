@@ -48,3 +48,31 @@ export async function deleteCart(req, res) {
         res.status(404).send("Não deletou o carrinho")
     }
 }
+export async function deleteItemOfCart(req, res) {
+    const body = req.body;
+    const { id } = req.query;
+    const dados = res.locals.dados;
+
+    const cart = await db.collection("carts").findOne(
+        { userId: dados.userId }
+    );
+    const products = cart.products;
+    
+    if (cart){
+        let newArr = products.filter(e => {
+            const { _id } = e
+            console.log(_id)
+            return _id === id ? false : true
+        })
+        console.log(newArr)
+        await db.collection("carts").updateOne(
+            { userId: dados.userId },
+            { $set: { products: newArr } }
+        );
+    }else {
+        res.status(422).send("Não foi pssível encontrar o carrinho!");
+    }
+
+    res.status(201).send(await db.collection("carts").findOne({ userId: dados.userId }));
+
+}
