@@ -1,4 +1,5 @@
 import db from "../db.js";
+import dayjs from "dayjs";
 
 export async function getProducts(req, res) {
     const products = await db.collection("products").find().toArray();
@@ -57,8 +58,8 @@ export async function deleteItemOfCart(req, res) {
         { userId: dados.userId }
     );
     const products = cart.products;
-    
-    if (cart){
+
+    if (cart) {
         let newArr = products.filter(e => {
             const { _id } = e
             console.log(_id)
@@ -69,10 +70,21 @@ export async function deleteItemOfCart(req, res) {
             { userId: dados.userId },
             { $set: { products: newArr } }
         );
-    }else {
+    } else {
         res.status(422).send("Não foi pssível encontrar o carrinho!");
     }
 
     res.status(201).send(await db.collection("carts").findOne({ userId: dados.userId }));
+}
 
+export async function postPurchase(req, res) {
+    const body = req.body;
+    const dados = res.locals.dados;
+    try {
+        await db.collection("purchases").insertOne({ ...body, userId: dados.userId, date: dayjs().format("DD/MM") })
+        const purchases_arr = await db.collection("purchases").find({ userId: dados.userId }).toArray();
+        res.status(201).send(purchases_arr);
+    } catch (error) {
+        res.status(422).send("Não foi possivel adicionar pedidos")
+    }
 }
