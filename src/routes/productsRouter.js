@@ -1,5 +1,6 @@
 import { gettingProducts } from '../controllers/productController.js';
 import { gettingOneProduct } from '../controllers/productController.js';
+import { postPurchase } from '../controllers/cartController.js';
 import { Router } from 'express';
 
 const router = Router();
