@@ -44,7 +44,7 @@ export async function deleteCart(req, res) {
             { userId: dados.userId },
             { $set: { products: [] } }
         );
-        res.status(201).send("Deletou o carrinho")
+        res.status(201).send(cart)
     } catch (error) {
         res.status(404).send("Não deletou o carrinho")
     }
