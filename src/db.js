@@ -6,5 +6,5 @@ const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 await mongoClient.connect();
 
-const db = mongoClient.db("Alidriven");
+const db = mongoClient.db("cluster0");
 export default db;
