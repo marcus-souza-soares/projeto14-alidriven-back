@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import db from "../db.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
-export async function userValidate(req, res, next) {
+export function userValidate(req, res, next) {
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
     const secret_key = process.env.JWT_SECRET;
