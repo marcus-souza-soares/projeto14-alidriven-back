@@ -8,13 +8,13 @@ export async function userValidate(req, res, next) {
     console.log(authorization)
     const token = authorization?.replace("Bearer ", "");
     const secret_key = process.env.JWT_SECRET;
-    //try {
+    try {
         const dados = jwt.verify(token, secret_key);
         const user = await db.collection("users").findOne({ _id: new ObjectId(dados.userId) });
         console.log(user);
         res.locals.dados = dados;
         next();
-   //} catch (error) {
-       // res.status(404).send("Error ao validar o usuário");
-  // }
+    } catch (error) {
+        res.status(404).send("Error ao validar o usuário");
+    }
 }

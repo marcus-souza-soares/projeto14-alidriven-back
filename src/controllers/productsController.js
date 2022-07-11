@@ -1,6 +1,7 @@
 import db from "../db.js";
 import dayjs from "dayjs";
 
+
 export async function getProducts(req, res) {
     const products = await db.collection("products").find().toArray();
     res.send(products)
