@@ -11,8 +11,6 @@ const router = Router();
 router.get('/products', gettingProducts);
 router.get('/products/:id',gettingOneProduct);
 
-
-
 router.post("/purchases", userValidate, postPurchase)
 
 export default router;
