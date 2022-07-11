@@ -1,13 +1,14 @@
 import db from '../db.js';
 import { ObjectId } from "mongodb";
+import dayjs from 'dayjs';
 
-export async function addingProduct(req,res){
+export async function addingProduct(req, res) {
     const id = res.locals.userId;
-    try{
-        const cart = await db.collection('carts').findOne({userId: new ObjectId(id)});
-        await db.collection('carts').updateOne({userId: new ObjectId(id)},{ $push: { products: req.body }});
+    try {
+        const cart = await db.collection('carts').findOne({ userId: new ObjectId(id) });
+        await db.collection('carts').updateOne({ userId: new ObjectId(id) }, { $push: { products: req.body } });
         res.send(cart);
-    }catch(error){
+    } catch (error) {
         res.send(error.details)
     }
 }
@@ -68,7 +69,7 @@ export async function deleteItemOfCart(req, res) {
             { userId: dados.userId }
         );
         const products = cart.products;
-    
+
         if (cart) {
             let newArr = products.filter(e => {
                 const { _id } = e
@@ -83,7 +84,7 @@ export async function deleteItemOfCart(req, res) {
         } else {
             res.status(422).send(cart);
         }
-    
+
         res.status(201).send(await db.collection("carts").findOne({ userId: dados.userId }));
     } catch (error) {
         res.status(401).send("Não deletou")
