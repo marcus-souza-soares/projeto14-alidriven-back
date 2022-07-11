@@ -2,7 +2,7 @@ import express from 'express';
 import authRouter from './routes/authRouter.js';
 import productsRouter from './routes/productsRouter.js';
 import cartRouter from './routes/cartRouter.js';
-import ordersRouter from './routes/ordersRouter.js';
+import purchasesRouter from './routes/purchasesRouter.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -16,7 +16,7 @@ server.use(cors());
 server.use(authRouter);
 server.use(productsRouter);
 server.use(cartRouter);
-server.use(ordersRouter);
+server.use(purchasesRouter);
 
 server.listen(process.env.PORT, () => {
     console.log("Server running on port " + process.env.PORT);

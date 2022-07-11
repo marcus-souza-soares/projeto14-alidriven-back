@@ -1,26 +1,26 @@
 import db from '../db.js';
 import { ObjectId } from "mongodb";
 
-function ordersMainInfo(order){
+function purchasesMainInfo(order){
     const obj = {
         _id: order._id,
         date: order.date
     }
     return(obj);
 }
-export async function gettingOrders(req,res){
+export async function gettingPurchases(req,res){
     try{
-        const orders = await db.collection('orders').find().toArray();
-        res.send(orders.map(ordersMainInfo));
+        const purchases = await db.collection('purchases').find().toArray();
+        res.send(purchases.map(purchasesMainInfo));
     }catch{
         res.status(500).send("Não foi possivel acessar pedidos do site");
     }
 }
-export async function gettingOneOrder(req,res){
+export async function gettingOnePurchase(req,res){
     const {id} = req.params;
     try{
-        const order = await db.collection('orders').findOne({_id: new ObjectId(id)});
-        res.send(order);
+        const purchase = await db.collection('purchases').findOne({_id: new ObjectId(id)});
+        res.send(purchase);
     }catch{
         res.status(500).send("Não foi possivel acessar o pedido");
     }
