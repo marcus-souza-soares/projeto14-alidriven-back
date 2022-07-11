@@ -6,11 +6,11 @@ import { userValidate } from "../middlewares/productsMiddleware.js";
 
 const router = Router();
 
-router.put('/cart', validateSession, addingProduct);
+//router.put('/cart', validateSession, addingProduct);
 
 
 router.get("/cart", userValidate, getCart);
-router.post("/cart", userValidate, postCart);
+router.put("/cart", userValidate, postCart);
 router.delete("/cart", userValidate, deleteCart);
 router.delete("/cartItem", userValidate, deleteItemOfCart);
 
