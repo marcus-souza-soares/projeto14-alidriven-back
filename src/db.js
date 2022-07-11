@@ -4,6 +4,9 @@ dotenv.config();
 
 const mongoClient = new MongoClient(process.env.MONGO_URI);
 
-await mongoClient.connect();
+mongoClient.connect(() => {
+    db = mongoClient.db(process.env.MONGO_DATABASE);
+});
+
 
 export default db;
