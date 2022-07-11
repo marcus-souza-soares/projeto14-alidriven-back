@@ -1,4 +1,5 @@
 import db from "../db.js";
+import dayjs from "dayjs";
 
 export async function getProducts(req, res) {
     const products = await db.collection("products").find().toArray();
@@ -74,5 +75,12 @@ export async function deleteItemOfCart(req, res) {
     }
 
     res.status(201).send(await db.collection("carts").findOne({ userId: dados.userId }));
+}
 
+export async function postPurchase(req, res){
+    const body = req.body;
+    const dados = res.locals.dados;
+    await db.collection("purchases").insertOne({...body, userId: dados.userId, date: dayjs().format("DD/MM")})
+    const purchases_arr = await db.collection("purchases").find({userId: dados.userId}).toArray();
+    res.status(201).send(purchases_arr);
 }
